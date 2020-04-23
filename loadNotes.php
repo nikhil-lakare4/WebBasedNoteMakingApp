@@ -23,7 +23,10 @@
                 <th>Note</th>
                 </tr>
             <?php
-                $conn = new mysqli("localhost", "root", "mysql", "db");
+                include "des.php";
+                $key = bin2hex("ABCDEFGH");
+
+                $conn = new mysqli("localhost", "root", "", "mydb");
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
                 } 
@@ -33,7 +36,7 @@
                     while($row = $result->fetch_assoc()){
                         echo "<tr>";
                         echo "<td>".$row['date']."</td>";
-                        echo "<td>".$row['note']."</td>";
+                        echo "<td>".trim(hex2bin(decryptText($row['note'], $key)))."</td>";
                         echo "</tr>";
                     }
                 }

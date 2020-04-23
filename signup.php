@@ -1,9 +1,12 @@
 <?php
 
+include "des.php";
+$key = bin2hex("ABCDEFGH");
+
 $servername="localhost";
 $username="root";
-$password="mysql";
-$db="db";
+$password="";
+$db="mydb";
 
 $conn = new mysqli($servername, $username, $password, $db);
 
@@ -11,10 +14,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$name=$_POST["name"];
-$uname=$_POST["username"];
-$pass=$_POST["password"];
-$contact=$_POST["contact"];
+$name = encryptText(bin2hex($_POST["name"]), $key);
+$uname = encryptText(bin2hex($_POST["username"]), $key);
+$pass = encryptText(bin2hex($_POST["password"]), $key);
+$contact = encryptText(bin2hex($_POST["contact"]), $key);
+
 
 $sql = "INSERT INTO userinfo(NAME, USERNAME, PASSWORD, CONTACT) VALUES ('".$name."', '".$uname."', '".$pass."', '".$contact."');";
 
